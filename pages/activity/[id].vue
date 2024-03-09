@@ -49,10 +49,6 @@ const activityFormatted = computed(() => {
 				<h2>Description</h2>
 				<p> {{ data.description }}</p>
 			</div>
-
-			<!-- <textarea name="" id="" cols="100" rows="5">
-					{{ JSON.stringify(data, null, 2) }}
-				</textarea> -->
 		</main>
 
 	</template>
@@ -77,6 +73,7 @@ main {
 		font-size: 1rem;
 		text-transform: uppercase;
 		color: var(--c-gray);
+		margin-bottom: 0.5rem;
 	}
 
 	p {

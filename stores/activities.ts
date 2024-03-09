@@ -5,20 +5,19 @@ export type Filters = {
 	month: number
 }
 
-export enum Sorts {
-	Distance,
-	Time,
-	Speed,
-	Elevation
-}
+export type Sorts = "date" | "distance" | "duration" | "elevation"
 
 export const useActivitiesStore = defineStore({
 	id: 'activities',
 	state: () => ({
 		filters: {
 			year: new Date().getFullYear(),
-			month: new Date().getMonth(),
+			month: new Date().getMonth() + 1,
 		} as Filters,
+		sorts: {
+			by: "date",
+			asc: true
+		} as { by: Sorts; asc: boolean },
 		currentActivities: [] as Activities
 	}),
 	getters: {
@@ -33,5 +32,8 @@ export const useActivitiesStore = defineStore({
 		setActivities(activities: Activities) {
 			this.currentActivities = activities
 		},
+		setSorts(sorts: { by: Sorts; asc: boolean }) {
+			this.sorts = sorts
+		}
 	},
 })

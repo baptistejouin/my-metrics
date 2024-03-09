@@ -53,10 +53,22 @@ export function getActivitiesFormatted(activities: Activities, apiMapboxToken: s
 	return activities.map(activity => getActivityFormatted(activity, apiMapboxToken));
 }
 
-export function getActivitiesSorted(activities: Activities) {
+export function getActivitiesSorted(activities: Activities, sortBy: Sorts, asc: boolean) {
 	return activities
-		// recent first
-		.sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
+		.sort((a, b) => {
+			switch (sortBy) {
+				case "date":
+					return asc ? new Date(a.start_date).getTime() - new Date(b.start_date).getTime() : new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
+				case "distance":
+					return asc ? a.distance - b.distance : b.distance - a.distance;
+				case "duration":
+					return asc ? a.moving_time - b.moving_time : b.moving_time - a.moving_time;
+				case "elevation":
+					return asc ? a.total_elevation_gain - b.total_elevation_gain : b.total_elevation_gain - a.total_elevation_gain;
+				default:
+					return 0;
+			}
+		})
 }
 
 export function getActivitiesFiltered(activities: Activities, filters: Filters) {
