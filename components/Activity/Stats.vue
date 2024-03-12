@@ -37,7 +37,7 @@ const { activity } = defineProps<{
 			</div>
 			<div class="tile col-span-3" v-if="activity.average_heartrate">
 				<span class="title">FC Moyenne</span>
-				<div class="value"><span>{{ activity.average_heartrate }}</span><sub>BPM/M</sub></div>
+				<div class="value"><span>{{ activity.average_heartrate }}</span><sub>BPM</sub></div>
 			</div>
 		</div>
 	</div>
@@ -48,7 +48,7 @@ h2 {
 	font-size: 1rem;
 	text-transform: uppercase;
 	color: var(--c-gray);
-	margin: 0.5rem;
+	margin-bottom: 0.5rem;
 }
 
 .grid {

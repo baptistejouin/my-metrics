@@ -4,10 +4,10 @@ definePageMeta({
 	name: "activity"
 });
 
-const id = useRoute().params.id;
+const id = useRoute().params.id as string;
 const accessToken = useCookie("access_token");
 
-const { data, pending } = await useAsyncData(
+const { data, error } = await useAsyncData(
 	`activity-${id}`,
 	() => $fetch(`https://www.strava.com/api/v3/activities/${id}`, {
 		method: "GET",
@@ -21,37 +21,36 @@ const activityFormatted = computed(() => {
 	if (data.value) {
 		return getActivityFormatted(data.value, "")
 	}
+
 })
-
-// TODO: handle invalid activity ID
-
 </script>
 
 <template>
-	<template v-if="pending">
-		Chargement...
-	</template>
+	<main class="wrapper">
+		<NuxtLink to="/" class="back">
+			<span class="icon icon-arrow-left" aria-hidden="true"></span>
+			<span>Retour aux courses</span>
+		</NuxtLink>
 
-	<template v-else-if="data">
-		<main class="wrapper">
-			<NuxtLink to="/" class="back">
-				<span class="icon icon-arrow-left" aria-hidden="true"></span>
-				<span>Retour aux courses</span>
-			</NuxtLink>
+		<ActivityNotFound v-if="error" />
+
+		<template v-else-if="data">
 
 			<ActivityHeader :data="data" />
 
-			<ActivityMap :center="data.start_latlng" :polyline="data.map.polyline" />
-
-			<ActivityStats v-if="activityFormatted" :activity="activityFormatted" />
+			<ActivityMap :polyline="data.map.polyline" />
 
 			<div class="description" v-if="data.description">
 				<h2>Description</h2>
 				<p> {{ data.description }}</p>
 			</div>
-		</main>
 
-	</template>
+			<ActivityStats v-if="activityFormatted" :activity="activityFormatted" />
+
+			<ActivitySplits v-if="data" :splits="data.splits_metric" :id="id" />
+		</template>
+	</main>
+
 </template>
 
 <style scoped lang="scss">

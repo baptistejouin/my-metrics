@@ -13,7 +13,7 @@ function totalTimeFormater(totalSeconds: number): string {
 	return [hours, minutes, seconds].map(component => component.toString().padStart(2, '0')).join(':');
 }
 
-function averageSpeedFormater(speedInMetersPerSecond: number): string {
+export function averageSpeedFormater(speedInMetersPerSecond: number): string {
 	const timePerKilometerInMinutes = 60 / (speedInMetersPerSecond * (3600 / 1000));
 
 	const formattedMinutes = Math.floor(timePerKilometerInMinutes).toString().padStart(2, '0');
@@ -82,7 +82,7 @@ export function getActivitiesFiltered(activities: Activities, filters: Filters) 
 
 export function getCurrentActivitiesSummary(activities: Activities) {
 	return {
-		total: activities.length,
+		total: activities.length.toString().padStart(2, '0'),
 		distance: totalDistanceFormater(activities.reduce((acc, activity) => acc + activity.distance, 0)),
 		time: totalTimeFormater(activities.reduce((acc, activity) => acc + activity.moving_time, 0)),
 		averageSpeed: averageSpeedFormater(activities.reduce((acc, activity) => acc + activity.average_speed, 0) / activities.length)

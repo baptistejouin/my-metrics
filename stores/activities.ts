@@ -23,7 +23,9 @@ export const useActivitiesStore = defineStore({
 	getters: {
 		month: (state) => state.filters.month,
 		year: (state) => state.filters.year,
-		activities: (state) => state.currentActivities,
+		sortBy: (state) => state.sorts.by,
+		sortAsc: (state) => state.sorts.asc,
+		activities: (state) => state.currentActivities
 	},
 	actions: {
 		setFilters(filters: { year: number; month: number }) {
